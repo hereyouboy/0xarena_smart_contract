@@ -1,0 +1,78 @@
+#+TITLE: Solidity Smart Contract Documentation
+#+AUTHOR: Ali Nosoohi
+#+DATE: [Current Date]
+
+* GameVault Smart Contract
+
+  This document provides technical details for the GameVault smart contract written in Solidity.
+
+** Contract Version
+
+  - Solidity Version: 0.8.19
+
+** External Dependencies
+
+  The contract relies on external dependencies from the OpenZeppelin library:
+
+  - [@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/utils/Initializable.sol)
+  - [@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/utils/UUPSUpgradeable.sol)
+  - [@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/utils/SafeERC20Upgradeable.sol)
+  - [@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControlUpgradeable.sol)
+
+** Contract Definition
+
+  This contract is named "GameVault" and it inherits from the following OpenZeppelin modules:
+
+  - Initializable
+  - UUPSUpgradeable
+  - AccessControlUpgradeable
+
+  The contract also uses the SafeERC20Upgradeable library for safe token operations.
+
+** State Variables
+
+  - `tether`: An IERC20Upgradeable interface representing the Tether token contract.
+  - `challengeReward`: A uint256 variable representing the challenge reward amount.
+  - `playersBalance`: A mapping that stores the balance of each player's rewards.
+
+** Events
+
+  - `ChallengeReward(uint256 challengeReward)`: Emitted when the challenge reward is set.
+  - `ClaimReward(address player, uint256 amount)`: Emitted when a player claims their reward.
+
+** Structs
+
+  - `PlayerInfo`: A struct that includes the following details about a player:
+
+    - `player`: Address of the player.
+    - `coefficient`: A 32-bit unsigned integer representing a coefficient for reward calculation.
+
+** Constructor
+
+  - `initialize(address _tether, address _owner)`: Initializes the contract with the Tether token address and the contract owner. It sets the default admin role to the contract owner.
+
+  - **Return**: No explicit return value. This function is used to set initial contract state.
+
+** External Functions
+
+  - `playersReward(PlayerInfo[] calldata _playerSet)`: Allows the contract owner (DEFAULT_ADMIN_ROLE) to distribute rewards to players based on their coefficients.
+
+  - **Return**: No explicit return value. This function updates the `playersBalance` mapping for multiple players based on the provided `_playerSet`.
+
+  - `setChallengeReward(uint256 _challengeReward)`: Allows the contract owner to set the challenge reward amount.
+
+  - **Return**: No explicit return value. This function sets the `challengeReward` state variable to the provided `_challengeReward`.
+
+  - `claimReward()`: Allows players to claim their rewards if they have a positive balance and sufficient tokens are available in the contract.
+
+  - **Return**: No explicit return value. This function transfers rewards to the caller and updates the `playersBalance` mapping.
+
+** Internal Functions
+
+  - `_authorizeUpgrade(address newImplementation)`: Overrides the UUPSUpgradeable function to ensure only the contract owner (DEFAULT_ADMIN_ROLE) can authorize an upgrade.
+
+  - **Return**: No explicit return value. This function ensures that only the contract owner (DEFAULT_ADMIN_ROLE) can authorize an upgrade by overriding the UUPSUpgradeable function.
+
+This documentation provides an overview of the GameVault smart contract and its key components, including the detailed structure of the `PlayerInfo` struct. Please refer to the contract's source code for more detailed implementation details and comments.
+
+[END OF DOCUMENT]
