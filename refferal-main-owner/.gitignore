@@ -1,0 +1,9 @@
+/node_modules
+/.openzeppelin
+/artifacts
+/.idea
+/cache
+package-lock.json
+.soliumrc.json
+.soliumignore
+.prettierrc
